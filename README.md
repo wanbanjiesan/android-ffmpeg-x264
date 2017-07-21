@@ -145,15 +145,95 @@ sh ./build_with_x264.sh<br>
 
 中间可能出现多次warning，无视就好。。。<br>
 最终会出现一下代码结构：<br>
- https://github.com/ 你的用户名 / 你的项目名 / raw / 分支名 / 存放图片的文件夹 / 该文件夹下的图片
- ![](https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/screenshot/shotscreen1.png)  
+ (https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/shotscreen/shotscreen1.png)  
 说明编译ok
 
+接下来是导入as，网上很多文章都是用旧的jni方式，而studio从2.2开始引入cmake的方式来更好的加载控制c代码<br>
+cmake最大的有点就是可以编辑c代码，并且有代码提示和错误提醒，这对编码来说是非常舒服的<br>
+废话不多说，上目录结构先：<br>
+(https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/shotscreen/shotscreen2.png) 
 
+gradle在android中追加<br>
+```gradle
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.ffmpegmy"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                abiFilters "armeabi"
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']
+        jni.srcDirs = []
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+```
+cmake文件：<br>
+```c
+set(distribution_DIR ${CMAKE_SOURCE_DIR}/../../../../libs)
+add_library( libffmpeg
+             SHARED
+             IMPORTED )
+set_target_properties( libffmpeg
+                       PROPERTIES IMPORTED_LOCATION
+                       ../../../../libs/${ANDROID_ABI}/libffmpeg.so )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+include_directories(libs/include)
 
+target_link_libraries( # Specifies the target library.
+                       native-lib libffmpeg
 
+                       # Links the target library to the log library
+                       # included in the NDK.
+                       ${log-lib} )
+```
+native-lib.cpp:<br>
+```c
+#include <jni.h>
+#include <string>
 
+extern "C"
+{
+#include <libavfilter/avfilter.h>
+JNIEXPORT jstring JNICALL
+Java_com_ffmpegmy_MainActivity_stringFromJNI(
+        JNIEnv *env,
+        jobject /* this */) {
 
+    char info[40000] = {0};
+    avfilter_register_all();
+
+    AVFilter *f_temp = (AVFilter *)avfilter_next(NULL);
+    while(f_temp != NULL) {
+        sprintf(info, "%s%s\n", info, f_temp->name);
+        f_temp = f_temp->next;
+    }
+    return env->NewStringUTF(info);
+}
+}
+
+```
 
 
 
