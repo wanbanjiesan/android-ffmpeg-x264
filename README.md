@@ -145,13 +145,13 @@ sh ./build_with_x264.sh<br>
 
 中间可能出现多次warning，无视就好。。。<br>
 最终会出现一下代码结构：<br>
- (https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/shotscreen/shotscreen1.png)  
+![](https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/shotscreen/shotscreen1.png)
 说明编译ok
 
 接下来是导入as，网上很多文章都是用旧的jni方式，而studio从2.2开始引入cmake的方式来更好的加载控制c代码<br>
 cmake最大的有点就是可以编辑c代码，并且有代码提示和错误提醒，这对编码来说是非常舒服的<br>
 废话不多说，上目录结构先：<br>
-(https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/shotscreen/shotscreen2.png) 
+![](https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/shotscreen/shotscreen2.png)
 
 gradle在android中追加<br>
 ```gradle
