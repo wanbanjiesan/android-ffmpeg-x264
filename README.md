@@ -15,7 +15,7 @@ ndk: https://developer.android.com/ndk/downloads/index.html   需要注意系�
 
 在下载过程中可以去编译脚本<br>
 新建脚本: build_with_x264.sh<br>
-```Javascript
+```sh
 cd x264
 
 export TEP=/Users/you/Desktop/ffmpeg
@@ -145,7 +145,8 @@ sh ./build_with_x264.sh<br>
 
 中间可能出现多次warning，无视就好。。。<br>
 最终会出现一下代码结构：<br>
-
+ https://github.com/ 你的用户名 / 你的项目名 / raw / 分支名 / 存放图片的文件夹 / 该文件夹下的图片
+ ![](https://github.com/wanbanjiesan/android_ffmpeg_x264/raw/master/FFmpegMy/screenshot/shotscreen1.png)  
 说明编译ok
 
 
