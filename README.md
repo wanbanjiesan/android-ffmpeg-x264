@@ -235,6 +235,11 @@ Java_com_ffmpegmy_MainActivity_stringFromJNI(
 
 ```
 
+参考：
+http://blog.csdn.net/byhook/article/details/51971652
+https://github.com/dxjia/ffmpeg-compile-shared-library-for-android
+http://blog.csdn.net/leixiaohua1020/article/details/47010637
+http://zheteng.me/android/2016/05/25/build-ffmpeg-for-android-with-x264/
 
 
 
